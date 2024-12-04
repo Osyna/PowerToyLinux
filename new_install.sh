@@ -210,8 +210,6 @@ install_packages() {
     done
 }
 
-# Fonction de création de fichier de configuration
-# Fonction de création de fichier de configuration
 create_config_file() {
     local file_path="$1"
     local content="$2"
@@ -248,7 +246,6 @@ create_config_file() {
     return 0
 }
 
-# Fonction d'activation des services avec vérification
 enable_service() {
     local service_name="$1"
     local system_level="${2:-system}" # 'system' ou 'user', par défaut 'system'
@@ -293,7 +290,6 @@ enable_service() {
     log "INFO" "Service $service_name activé et démarré avec succès"
     return 0
 }
-
 
 ###############################################################################
 #                     FONCTIONS D'INSTALLATION                                  #
