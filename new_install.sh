@@ -211,76 +211,49 @@ install_packages() {
 }
 
 create_config_file() {
-    local file_path="$1"
-    local content="$2"
-    local dir_path=$(dirname "$file_path")
+    local file_path=$1
+    local content=$2
+    local dir_path
+    dir_path=$(dirname "$file_path")
 
-    # Création du répertoire parent si nécessaire
     if [ ! -d "$dir_path" ]; then
-        sudo mkdir -p "$dir_path" || {
-            error "Impossible de créer le répertoire $dir_path"
-            return 1
-        }
-    }
+        sudo mkdir -p "$dir_path" || error "Impossible de créer le répertoire $dir_path"
+    fi
 
-    # Écriture du contenu dans un fichier temporaire
-    echo "$content" > /tmp/temp_config || {
-        error "Impossible d'écrire le fichier temporaire"
-        return 1
-    }
+    sudo bash -c "cat > $file_path" << 'EOL'
+$content
+EOL
 
-    # Déplacement du fichier vers sa destination finale avec sudo
-    sudo mv /tmp/temp_config "$file_path" || {
-        error "Impossible de déplacer le fichier vers $file_path"
-        rm -f /tmp/temp_config
+    if [ $? -ne 0 ]; then
+        error "Impossible de créer le fichier $file_path"
         return 1
-    }
+    fi
 
-    # Attribution des permissions appropriées
-    sudo chmod 644 "$file_path" || {
-        error "Impossible de modifier les permissions de $file_path"
-        return 1
-    }
+    sudo chmod 644 "$file_path" || error "Impossible de modifier les permissions de $file_path"
 
     log "INFO" "Fichier de configuration créé : $file_path"
     return 0
 }
 
+# Fonction d'activation des services avec vérification
 enable_service() {
-    local service_name="$1"
-    local system_level="${2:-system}" # 'system' ou 'user', par défaut 'system'
+    local service_name=$1
+    local system_level=${2:-system}  # 'system' ou 'user', par défaut 'system'
 
     log "INFO" "Activation du service : $service_name (niveau: $system_level)"
 
     if [ "$system_level" = "user" ]; then
-        # Service niveau utilisateur
-        systemctl --user enable "$service_name" || {
-            error "Impossible d'activer le service utilisateur $service_name"
-            return 1
-        }
-        systemctl --user start "$service_name" || {
-            error "Impossible de démarrer le service utilisateur $service_name"
-            return 1
-        }
-    else
-        # Service niveau système
-        sudo systemctl enable "$service_name" || {
-            error "Impossible d'activer le service système $service_name"
-            return 1
-        }
-        sudo systemctl start "$service_name" || {
-            error "Impossible de démarrer le service système $service_name"
-            return 1
-        }
-    fi
+        systemctl --user enable "$service_name" || error "Impossible d'activer le service utilisateur $service_name"
+        systemctl --user start "$service_name" || error "Impossible de démarrer le service utilisateur $service_name"
 
-    # Vérification de l'état du service
-    if [ "$system_level" = "user" ]; then
         if ! systemctl --user is-active --quiet "$service_name"; then
             error "Le service utilisateur $service_name n'est pas actif après activation"
             return 1
         fi
     else
+        sudo systemctl enable "$service_name" || error "Impossible d'activer le service système $service_name"
+        sudo systemctl start "$service_name" || error "Impossible de démarrer le service système $service_name"
+
         if ! systemctl is-active --quiet "$service_name"; then
             error "Le service système $service_name n'est pas actif après activation"
             return 1
@@ -290,6 +263,7 @@ enable_service() {
     log "INFO" "Service $service_name activé et démarré avec succès"
     return 0
 }
+
 
 ###############################################################################
 #                     FONCTIONS D'INSTALLATION                                  #
