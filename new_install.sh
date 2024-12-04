@@ -42,7 +42,7 @@ declare -A PACKAGES=(
                qcacld-firmware iwd openssh net-tools wireless-regdb \
                wpa_supplicant"
 
-    [POWER]="tlp tlp-rdw powertop thermald power-profiles-daemon \
+    [POWER]="tlp tlp-rdw powertop thermald \
              acpi_call tpacpi-bat"
 
     [AUDIO]="pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
