@@ -32,7 +32,7 @@ declare -A PACKAGES=(
 
     [SYSTEM]="linux-firmware amd-ucode fprintd libfprint acpi acpid \
               v4l-utils linux-headers dkms lm_sensors powertop s-tui \
-              ddcutil inotify-tools irqbalance thermald nvme-cli \
+              ddcutil inotify-tools irqbalance nvme-cli \
               hdparm smartmontools dmidecode usbutils"
 
     [GPU]="mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver mesa-vdpau \
@@ -42,7 +42,7 @@ declare -A PACKAGES=(
                qcacld-firmware iwd openssh net-tools wireless-regdb \
                wpa_supplicant"
 
-    [POWER]="tlp tlp-rdw powertop thermald \
+    [POWER]="tlp tlp-rdw powertop \
              acpi_call tpacpi-bat"
 
     [AUDIO]="pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
@@ -78,7 +78,6 @@ declare -a SERVICES=(
     "NetworkManager"
     "bluetooth"
     "tlp"
-    "thermald"
     "powertop"
     "acpid"
     "fprintd"
@@ -105,7 +104,6 @@ declare -A CONFIG_FILES=(
     [ZRAM]="/etc/systemd/zram-generator.conf"
     [DDC]="/etc/udev/rules.d/90-ddcutil.rules"
     [POWERTOP]="/etc/systemd/system/powertop.service"
-    [THERMALD]="/etc/thermald/thermal-conf.xml"
     [ACPI_LID]="/etc/acpi/lid.sh"
     [ACPI_EVENTS]="/etc/acpi/events/lid"
     [PIPEWIRE]="/etc/pipewire/pipewire.conf"
@@ -537,33 +535,6 @@ setup_power() {
     options nvme_core mp_ns_lpol=2
     options nvme_core apst_enabled=1"
 
-        # Configuration thermald optimisée
-        create_config_file "${CONFIG_FILES[THERMALD]}" '<?xml version="1.0"?>
-    <ThermalConfiguration>
-        <Platform>
-            <Name>Laptop</Name>
-            <ProductName>ThinkPad T14 Gen 5</ProductName>
-            <Preference>QUIET</Preference>
-            <ThermalZones>
-                <ThermalZone>
-                    <Type>cpu</Type>
-                    <TripPoints>
-                        <TripPoint>
-                            <SensorType>x86_pkg_temp</SensorType>
-                            <Temperature>75000</Temperature>
-                            <type>passive</type>
-                            <ControlType>PARALLEL</ControlType>
-                            <CoolingDevice>
-                                <Type>rapl_controller</Type>
-                                <SamplingPeriod>5</SamplingPeriod>
-                                <TargetState>10000000</TargetState>
-                            </CoolingDevice>
-                        </TripPoint>
-                    </TripPoints>
-                </ThermalZone>
-            </ThermalZones>
-        </Platform>
-    </ThermalConfiguration>'
 
         # Configuration powertop
         create_config_file "${CONFIG_FILES[POWERTOP]}" '[Unit]
@@ -585,7 +556,6 @@ setup_power() {
 
         # Activation des services
         enable_service "tlp"
-        enable_service "thermald"
         enable_service "powertop"
 }
 
