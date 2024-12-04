@@ -211,29 +211,28 @@ install_packages() {
 }
 
 create_config_file() {
-    local file_path=$1
-    local content=$2
+    local file_path="$1"
+    local content="$2"
     local dir_path
-    dir_path=$(dirname "$file_path")
+    dir_path="$(dirname "${file_path}")"
 
-    if [ ! -d "$dir_path" ]; then
-        sudo mkdir -p "$dir_path" || error "Impossible de créer le répertoire $dir_path"
+    if [[ ! -d "${dir_path}" ]]; then
+        sudo mkdir -p "${dir_path}" || error "Impossible de créer le répertoire ${dir_path}"
     fi
 
-    sudo bash -c "cat > $file_path" << 'EOL'
-$content
-EOL
+    echo "${content}" | sudo tee "${file_path}" > /dev/null
 
-    if [ $? -ne 0 ]; then
-        error "Impossible de créer le fichier $file_path"
+    if [[ $? -ne 0 ]]; then
+        error "Impossible de créer le fichier ${file_path}"
         return 1
     fi
 
-    sudo chmod 644 "$file_path" || error "Impossible de modifier les permissions de $file_path"
+    sudo chmod 644 "${file_path}" || error "Impossible de modifier les permissions de ${file_path}"
 
-    log "INFO" "Fichier de configuration créé : $file_path"
+    log "INFO" "Fichier de configuration créé : ${file_path}"
     return 0
 }
+
 
 # Fonction d'activation des services avec vérification
 enable_service() {
