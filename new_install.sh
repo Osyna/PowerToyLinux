@@ -211,10 +211,13 @@ install_packages() {
 }
 
 create_config_file() {
-    local file_path="$1"
-    local content="$2"
+    local file_path=$1
+    local content=$2
     local dir_path
-    dir_path="$(dirname "${file_path}")"
+    dir_path="$(dirname "$file_path")"  # Ceci est la bonne syntaxe
+
+    # Alternative qui marche aussi :
+    # dir_path=$(dirname "$file_path")
 
     if [[ ! -d "${dir_path}" ]]; then
         sudo mkdir -p "${dir_path}" || error "Impossible de créer le répertoire ${dir_path}"
@@ -232,6 +235,7 @@ create_config_file() {
     log "INFO" "Fichier de configuration créé : ${file_path}"
     return 0
 }
+
 
 
 # Fonction d'activation des services avec vérification
