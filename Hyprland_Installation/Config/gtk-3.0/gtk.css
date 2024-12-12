@@ -1,0 +1,108 @@
+/* OLED Theme for Thunar */
+
+/* Window background */
+.thunar window,
+.thunar paned,
+.thunar notebook,
+.thunar notebook > header {
+    background-color: #000000;
+    border: none;
+}
+
+/* Sidebar */
+.thunar .sidebar,
+.thunar .sidebar list {
+    background-color: #0a0a0a;
+    color: #ffffff;
+}
+
+.thunar .sidebar list row:selected {
+    background-color: #1a1a1a;
+    color: #89b4fa;
+}
+
+/* Main view */
+.thunar .view,
+.thunar treeview {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.thunar .view:selected,
+.thunar treeview:selected {
+    background-color: #1a1a1a;
+    color: #89b4fa;
+}
+
+/* Header and toolbar */
+.thunar headerbar,
+.thunar toolbar {
+    background-color: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+/* Buttons */
+.thunar button {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.thunar button:hover {
+    background-color: #2a2a2a;
+}
+
+/* Path bar */
+.thunar .path-bar button {
+    background-color: #0a0a0a;
+    color: #ffffff;
+}
+
+.thunar .path-bar button:hover {
+    background-color: #1a1a1a;
+}
+
+/* Scrollbars */
+scrollbar {
+    background-color: #000000;
+    border: none;
+}
+
+scrollbar slider {
+    background-color: #1a1a1a;
+    border-radius: 6px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background-color: #2a2a2a;
+}
+
+/* Status bar */
+.thunar statusbar {
+    background-color: #0a0a0a;
+    color: #888888;
+    border-top: 1px solid #1a1a1a;
+}
+
+/* Separator */
+.thunar separator {
+    background-color: #1a1a1a;
+}
+
+/* Location entry */
+.thunar entry {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.thunar entry:focus {
+    background-color: #2a2a2a;
+    border: 1px solid #89b4fa;
+}

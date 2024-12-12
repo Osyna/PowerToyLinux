@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1733359493454925-1</unique-id>
+	<command>kitty --working-directory %f</command>
+	<description>Example for a custom action</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>emblem-unlocked</icon>
+	<name>Edit as Root</name>
+	<submenu></submenu>
+	<unique-id>1733589868363674-2</unique-id>
+	<command>kitty -e sudo nvim %f</command>
+	<description>Edit as Root</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<other-files/>
+	<text-files/>
+</action>
+<action>
+	<icon>path-tweak-shrink</icon>
+	<name>Quick Image Optimization</name>
+	<submenu></submenu>
+	<unique-id>1733590016609868-3</unique-id>
+	<command>convert %f -quality 85 -strip optimized_%f</command>
+	<description>Optimize Image</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<image-files/>
+</action>
+<action>
+	<icon>application-pdf</icon>
+	<name>Convert to PDF</name>
+	<submenu></submenu>
+	<unique-id>1733590216625031-4</unique-id>
+	<command>libreoffice --headless --convert-to pdf %f</command>
+	<description>Convert to PDf</description>
+	<range>*</range>
+	<patterns>*.doc;*.docx;*.xls;*.xlsx;*.ppt;*.pptx;*.odt;*.ods;*.odp;*.rtf;*.txt</patterns>
+	<other-files/>
+	<text-files/>
+</action>
+</actions>
